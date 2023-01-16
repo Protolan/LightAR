@@ -17,6 +17,7 @@ public class LightController : MonoBehaviour
     public Slider Slider;
     public Image ValueIcon;
     public ColorPickerUnityUI ColorPicker;
+    public Transform MainMenu;
 
     public Sprite BrightnessSprite;
     public Sprite ContrastSprite;
@@ -25,8 +26,8 @@ public class LightController : MonoBehaviour
 
     private Action<float> _sliderChange;
     private ColorGrading _colorGrading;
-    
 
+    private bool _menuOpen = false;
 
     private void OnEnable()
     {
@@ -43,6 +44,7 @@ public class LightController : MonoBehaviour
         _colorGrading.postExposure.value = 0;
         _colorGrading.colorFilter.value = Color.white;
         ColorPicker.value = Color.white;
+        MainMenu.gameObject.SetActive(false);
         EnableBrightnessMode();
     }
 
@@ -72,6 +74,20 @@ public class LightController : MonoBehaviour
         Slider.value = Mathf.InverseLerp(settings.ContrastRange.x, settings.ContrastRange.y,
             _colorGrading.contrast.value);
         print("EnableContrastMode");
+    }
+
+    public void ToggleMenu()
+    {
+        if (_menuOpen)
+        {
+            MainMenu.gameObject.SetActive(false);
+            _menuOpen = false;
+        }
+        else
+        {
+            MainMenu.gameObject.SetActive(true);
+            _menuOpen = true;
+        }
     }
 
     public void EnableColorModer()
